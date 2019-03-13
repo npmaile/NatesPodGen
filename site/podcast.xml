@@ -1,0 +1,34 @@
+<rss version= "2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+ <channel>
+  <atom:link href="https://podcast.npmaile.com/podcast.xml" rel="self" type="application/rss+xml" />
+  <title>Nate Hates Boring People</title>
+  <link>https://podcast.npmaile.com</link>
+  <description>Nate interviews various people from his life and forces them to justify their existence to him through a defense of their life experiences and competencies</description>
+  <language>en-us</language>
+  <lastBuildDate> Wed, 13 Mar 2019 20:39:08 -0000</lastBuildDate>
+  <generator>Nate's sweet custom podcast generator</generator>
+  <webMaster>nathaniel@npmaile.com (Nate Maile)</webMaster>
+  <image>
+   <url>https://podcast.npmaile.com/images/logo.png</url>
+   <link>https://podcast.npmaile.com</link>
+   <title>Nate Hates Boring People</title>
+  </image>
+  <itunes:author>Nate Maile</itunes:author>
+  <itunes:explicit>yes</itunes:explicit>
+  <itunes:owner>
+   <itunes:email>nathaniel@npmaile.com</itunes:email>
+   <itunes:name>Nate Maile</itunes:name>
+  </itunes:owner>
+  <itunes:category text="Comedy"/>
+  <item>
+   <enclosure url="https://podcast.npmaile.com/episodes/MattBanwart.mp3" length="84386793" type="audio/mpeg"/>
+   <title>Matt Banwart, Comedian</title>
+   <description>I talk to Matt about becoming a commedian and the struggles therein and he shares some stories about West Virginia and his travels in New York.</description>
+   <pubDate>Tue, 12 Mar 2019 00:00:00 -0000</pubDate>
+   <guid isPermaLink="false">https://podcast.npmaile.com/#1</guid>
+   <link>https://podcast.npmaile.com/episodes/MattBanwart.mp3</link>
+   <itunes:keywords>comedy,comedian,interview,Matt Banwart, The N word</itunes:keywords>
+   <itunes:duration>01:27:51</itunes:duration>
+  </item>
+ </channel>
+</rss>
