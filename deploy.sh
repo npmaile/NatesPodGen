@@ -13,7 +13,7 @@ while true; do
 	esac
 done
 
-echo $workingDirectory
+mkdir config
 cat templates/podcast.conf | sed "s/\$FQDN/$FQDN/g" | sed "s|\$workingdirectory|$WorkingDirectory|g" > config/podcast.conf
 
 cat templates/feed.ini  | sed "s/\$FQDN/$FQDN/g" | sed "s|\$workingdirectory|$WorkingDirectory|g" > feed.ini
