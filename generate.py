@@ -8,7 +8,7 @@ import re
 
 
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read('feed.ini')
 
 headerxml = '''<rss version= "2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"><channel>
                     <atom:link href="'''        + config['global']['externalSiteRoot'] + '/' + config['global']['feedLocation'] + '''" rel="self" type="application/rss+xml" />
@@ -55,6 +55,6 @@ for section in config.sections():
                     <itunes:duration>'''        + str(config[section]['duration']) +'''</itunes:duration>
                     </item>
                     '''
-rssxml = xml.dom.minidom.parseString(headerxml + episoded + tailxml)
+rssxml = xml.dom.minidom.parseString(headerxml + episodes + tailxml)
 with open("site/podcast.rss",'w+') as rssfeed:
     rssfeed.write(rssxml.toprettyxml())
