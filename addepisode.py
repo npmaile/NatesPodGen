@@ -1,25 +1,26 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
-import subprosess
+import subprocess
 import argparse
 import configparser
 import re
 import datetime
     
-parser = argparse.ArgumentParser(description="add an entry to feed.ini"
-parser.add_argument('mp3file', type=str,nargs=1, help='The mp3 file to be added to your feed', required=True)
-parser.add_argument('image',type=str,nargs=1,default = None,help='the optional episode specific image for your episode', required=False)
+parser = argparse.ArgumentParser(description="add an entry to feed.ini")
+parser.add_argument('mp3file', type=str , nargs=1 , help='The mp3 file to be added to your feed')
+parser.add_argument('-i','--image',type=str,nargs=1,default = None ,help='the optional episode specific image for your episode')
 args = parser.parse_args()
 mp3filepath = args['mp3file']
 
 
 def getuuid():
-    inifile = configparser.read_file(
+    inifile = configparser.read_file('feed.ini')
     maxnumber = 0
-    for x in inifile:
-        if inifile[x]['uuid']:
-            if int(inifile[x]['uuid'] > maxnumber:
-                maxnumber = int(inifile[x]['uuid']
+    for x in inifile.sections():
+        if inifile[x]['uuid'] is not None:
+            if int(inifile[x]['uuid']) > maxnumber:
+                maxnumber = int(inifile[x]['uuid'])
+
     return maxnumber
     
 
@@ -29,7 +30,7 @@ def askforreleasedate():
     month,date,year = today.month,today.day,today.year
     answer = input('Would you like to release immediately?[y,N]')
     if answer.charAt(0).lower() is 'y':
-        return %s %s %s, % (str(year),str(month),str(day)
+        return "%s %s %s".format(str(year),str(month),str(day))
     else:
         print('tough tiddies')
         #todo: ask for the release date
@@ -49,16 +50,16 @@ link = 'site/episodes/' + title
 print('copying the mp3 file to' + link)
 subprocess.call(['cp',mp3filepath,link])
 
-if args['image']
+if args['image'] is not None:
     image = args['image']
     imagePath = 'site/images/' + uniqueid + ':' + description
     print('copying the image file to' + imagePath)
-    subprocess.call{['cp',image,imagepath])
+    subprocess.call(['cp',image,imagepath])
  
 
 
 with open("feed.ini",'a') as feedfile:
-    feedfile.write('[' + title + ']'
+    feedfile.write('[' + title + ']')
     feedfile.write('description = ' + description)
     feedfile.write('releaseDate = ' + releaseDate)
     feedfile.write('uniqueid = ' + uniqueid)
@@ -66,7 +67,7 @@ with open("feed.ini",'a') as feedfile:
     feedfile.write('duration = ' + duration)
     feedfile.write('itunesKeywords = ' + itunesKeywords)
     if image is not None:
-        feedfile.write('image = ' + imagepath
+        feedfile.write('image = ' + imagepath)
 
 
 
