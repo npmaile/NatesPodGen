@@ -42,7 +42,8 @@ for section in config.sections():
     else:
         releasedate = datetime.datetime.strptime(config[section]['releaseDate'], '%Y %b %d')
         if releasedate < datetime.datetime.now():
-            
+            podcasttime = ''
+            #generate the length of the podcast some kind of way
             episodes += '''
                     <item>
                     <enclosure url="'''         + config['global']['externalSiteRoot'] + '/' + config[section]['link'] + '\" length=\"' + str(os.path.getsize(config['global']['serverSiteRoot'] + '/' + config[section]['link'])) + '''" type="audio/mpeg"/>
