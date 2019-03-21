@@ -12,6 +12,10 @@ parser.add_argument('-i','--image',type=str,nargs=1,default = None ,help='the op
 args = parser.parse_args()
 mp3filepath = args['mp3file']
 
+def calclength(mp3file):
+    answer = input('what is the length of your mp3 audio file?(HH:MM:SS)'
+            while not re.match('[1-9]2:[1-9]2:[1-9]2',answer):
+                answer = input('Please put it in the correct format')##todo generate this instead of asking for it because I'm a good programmer, Damnit!
 
 def getuuid():
     inifile = configparser.read_file('feed.ini')
