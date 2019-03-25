@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<title>%Title%</title>
+		<link rel="stylesheet" type="text/css" href="style.css"/>
+	</head>
+	<body>
+		<div id="header">
+			<h1>%Title%</h1>
+			<p id="globalDescription">
+			%globalDescription%
+			</p>
+
+		</div>
+		
+		<div id="externLinks">
+		Listen here:
+		%extrnalLinks%
+		<div>
