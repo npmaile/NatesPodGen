@@ -20,8 +20,8 @@ mkdir site/episodes
 cat templates/podcast.conf | sed "s/\$FQDN/$FQDN/g" | sed "s|\$workingdirectory|$WorkingDirectory|g" > config/podcast.conf
 
 cat templates/feed.ini  | sed "s/\$FQDN/$FQDN/g" | sed "s|\$workingdirectory|$WorkingDirectory|g" > feed.ini
-cat templates/general.conf > config/general.conf
-
+cp templates/general.conf config/general.conf
+cp templates/css/style.css site/style.css
 echo -e "if there were no errors, the process is complete\
 	\nThe next steps are as follows\
 	\n1. add the nginx directive of inclucde $WorkingDirectory/config/podcast.conf\
