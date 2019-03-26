@@ -57,7 +57,7 @@ itunesKeywords = input("itunes Keywords(separated by commas)")
 releaseDate = askforreleasedate()
 duration = calclength(mp3filepath)
 
-link = 'episodes/' + title
+link = 'episodes/' + title + '.mp3'
 print('copying the mp3 file to' + 'site/' + link)
 shutil.copy(mp3filepath,'site/' + link)
 
