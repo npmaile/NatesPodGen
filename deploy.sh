@@ -17,10 +17,10 @@ mkdir config
 mkdir site
 mkdir site/images
 mkdir site/episodes
-cat templates/podcast.conf | sed "s/\$FQDN/$FQDN/g" | sed "s|\$workingdirectory|$WorkingDirectory|g" > config/podcast.conf
+cat templates/nginx/podcast.conf | sed "s/\$FQDN/$FQDN/g" | sed "s|\$workingdirectory|$WorkingDirectory|g" > config/podcast.conf
 
 cat templates/feed.ini  | sed "s/\$FQDN/$FQDN/g" | sed "s|\$workingdirectory|$WorkingDirectory|g" > feed.ini
-cp templates/general.conf config/general.conf
+cp templates/nginx/general.conf config/general.conf
 cp templates/css/style.css site/style.css
 echo -e "if there were no errors, the process is complete\
 	\nThe next steps are as follows\
