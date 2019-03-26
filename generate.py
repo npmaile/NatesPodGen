@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-import xml.dom.minidom
-import configparser
-import datetime
+from string import Template
 from email.utils import formatdate
-import os
-import re
+import os, re, configparser, xml.dom.minidom, datetime
+
+indextemplatefile = 'templates/html/index.html'
+episodestemplatefile = 'templates/html/podcastsection.html'
 
 class Episode:
     def __init__(self, link, length, title, description, releasedate, uniqueId, keywords, duration, altImage = None)
@@ -33,7 +33,8 @@ class Podcast:
         self.owneremail = owneremail
         self.category = category
         self.builddate = formatdate()
-def PopulateClasses(config):
+
+def populateClasses(config):
     globalconfig = config['global']
     Cast = Podcast(\
             externalroot = globalconfig['externalSiteRoot'],\
@@ -52,19 +53,23 @@ def PopulateClasses(config):
             pass
         else:
             ep = config[episode]
-            Cast.append(Episode(\
+            newepisode = Episode(\
                     link = ep['link'],\
-                    length = str(os.path.getsize(config['global']['serverSiteRoot'] + '/' + config[section]['link'])),\
+                    length = str(os.path.getsize(globalconfig['serverSiteRoot'] + '/' + ep['link'])),\
                     title = ep['title'],\
                     description = ep['description'],\
                     releasedate = formatdate(float(datetime.datetime.strptime(ep['releaseDate'],  '%Y %b %d').strftime('%s']))),\
                     uniqueId = ep['uniqueid'],\
                     keywords = ep['itunesKeywords'],\
-                    duration = ep['duration']))
+                    duration = str(ep['duration']))
+            try:
+                newepisode.altImage = ep['image']
+            except KeyError:
+                newepisode.altImage = globalconfig['imageUrlFromRoot']
 
-def genRss(config):
-    podcast = PopulateClasses(config)
-
+## I could have done this whole thing with the xml tree builtin, but I didn't for two reasons 1. I hate using that module and 2. It's much more difficult to read and understand for no good reason other than "it's pythonic"
+## Don't @ me.
+def genRss(podcast):
     headerxml = '''<rss version= "2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"><channel>
                         <atom:link href="'''        + podcast.externalroot + '/' + podcast.feedlocation + '''" rel="self" type="application/rss+xml" />
                         <title>'''                  + podcast.title + '''</title>
@@ -76,47 +81,84 @@ def genRss(config):
                         <webMaster>'''              + podcast.owneremail +' (' + podcast.ownername + ')' '''</webMaster>
                         <image>
                             <url>'''                + podcast.externalroot +'/'+ podcast.imagelink + '''</url>
-                            <link>'''               + config['global']['externalSiteRoot'] + '''</link>
-                            <title>'''              + config['global']['title'] + '''</title> 
+                            <link>'''               + podcast.externalroot + '''</link>
+                            <title>'''              + podcast.title + '''</title> 
                         </image>
-                        <itunes:author>'''          + config['global']['ownerName'] + '''</itunes:author>
-                        <itunes:explicit>'''        + config['global']['explicit'] + '''</itunes:explicit>
+                        <itunes:author>'''          + podcast.ownername + '''</itunes:author>
+                        <itunes:explicit>'''        + podcast.explicit + '''</itunes:explicit>
                         <itunes:owner>
-                            <itunes:email>'''       + config['global']['ownerEmail'] + '''</itunes:email>
-                            <itunes:name>'''        + config['global']['ownerName'] + '''</itunes:name>
+                            <itunes:email>'''       + podcast.owneremail + '''</itunes:email>
+                            <itunes:name>'''        + podcast.ownername + '''</itunes:name>
                         </itunes:owner>
-                        <itunes:category text="'''  + config['global']['category']+ '''"/>'''
+                        <itunes:category text="'''  + podcast.category + '''"/>'''
 
     tailxml = '''</channel></rss>'''
-
     episodes = ''
-    for section in config.sections():
-        
-        if section == 'global':
-            pass
-        else:
-            releasedate = datetime.datetime.strptime(config[section]['releaseDate'], '%Y %b %d')
-            if releasedate < datetime.datetime.now():
-                podcasttime = ''
-                #generate the length of the podcast some kind of way
+        for episode in podcast.episodes:
+            if episode.releasedate < datetime.datetime.now():
                 episodes += '''
                         <item>
-                        <enclosure url="'''         + config['global']['externalSiteRoot'] + '/' + config[section]['link'] + '\" length=\"' + str(os.path.getsize(config['global']['serverSiteRoot'] + '/' + config[section]['link'])) + '''" type="audio/mpeg"/>
-                        <title>'''                  + section + '''</title>
-                        <description>'''            + config[section]['description'] + '''</description>
-                        <pubDate>'''                + formatdate(float(releasedate.strftime('%s'))) + '''</pubDate>
-                        <guid isPermaLink="false">''' + config['global']['externalSiteRoot'] + '/#' + config[section]['uniqueid'] + '''</guid>
-                        <link>'''                   + config['global']['externalSiteRoot'] + '/'+ config[section]['link'] + '''</link>
-                        <itunes:keywords>'''        +config[section]['itunesKeywords'] + '''</itunes:keywords>
-                        <itunes:duration>'''        + str(config[section]['duration']) +'''</itunes:duration>
+                        <enclosure url="'''         + podcast.externalroot + '/' + episode.link + '\" length=\"' + episode.length + '/' + episode.length + '''" type="audio/mpeg"/>
+                        <title>'''                  + episode.title + '''</title>
+                        <description>'''            + episode.description + '''</description>
+                        <pubDate>'''                + episode.releasedate + '''</pubDate>
+                        <guid isPermaLink="false">''' + podcast.externalroot + '/#' + episode.uniqueId + '''</guid>
+                        <link>'''                   + podcast.externalroot + '/'+ episode.link + '''</link>
+                        <itunes:keywords>'''        + episode.keywords + '''</itunes:keywords>
+                        <itunes:duration>'''        + episode.duration +'''</itunes:duration>
+                        <itunes:image href="'''     + episode.altImage + '''/>
                         </item>
                         '''
-    rssxml = xml.dom.minidom.parseString(headerxml + episodes + tailxml)
-    with open("site/podcast.rss",'w+') as rssfeed:
-        rssfeed.write(rssxml.toprettyxml())
+    return  xml.dom.minidom.parseString(headerxml + episodes + tailxml).toprettyxml()
 
-configfile = configparser.ConfigParser()
+def genHtml(podcast,indexTemplate,episodeTemplate):
+    episodestemplatestring = ''
+    
+    with open(episodehtmltemplatefile, 'r') as episodehtmltemplatehandler:
+        episodetemplatestring = episodehtmltemplatehandler.read()
+    
+    compiledEpisodes = ''
+
+    for episode in podcast.episodes:
+        episodereplacements = dict(\
+                image=episode.altImage,\
+                episodeTitle=episode.title,\
+                mp3file=episode.link,\
+                description=episode.description
+                )
+    
+        episodetemplate = Template(episodestemplatestring)
+        compiledEpisodes.append(episodetemplate.substitute(episodereplacements))
+
+    mainreplacements = dict(\
+            Title=podcast.title,\
+            globalDescription=podcast.description,\
+            EpisodesHtml=compiledEpisodes,\
+            image=podcast.imagelink\
+            )
+    
+    templatestring = ''
+    
+    with open(indexhtmltemplatefile, 'r') as indexhtmltemplatehandler:
+        templatestring = indexhtmltemplatehandler.read()
+    
+    maintemplate = Template(templatestring)
+    indexhtmlshellstring = maintemplate.substitute(mainreplacements)
+
+    return xml.dom.minidom.parseString(fullhtml).toprettyxml()
+
+print('parsing configfile')
+config = configparser.ConfigParser()
 config.read('feed.ini')
+podcast = populateClasses(config)
+
+print('Writing rss feed')
 with open("site/podcast.rss",'w+') as rssfeed:
     rssfeed.write(genRss(config))
+
+print('Writing html site')
+with open("site/index.html",'w+') as htmlsite:
+    htmlsite.write(genHtml(config))
+
+print('Done!')
 
