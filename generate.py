@@ -119,12 +119,13 @@ def genHtml(podcast,indexTemplateFile,episodeTemplateFile):
         episodestemplatestring += episodehtmltemplatehandler.read()
     
     compiledEpisodes = ''
-    for episode in podcast.episodes:
+    for episode in reversed(podcast.episodes):
         episodereplacements = dict(
                 image=str(episode.altImage),
                 episodeTitle=str(episode.title),
                 mp3file=str(episode.link),
-                description=str(episode.description)
+                description=str(episode.description),
+                episodeNumber=str(episode.uniqueId)
                 )
 
         episodetemplate = Template(episodestemplatestring)
