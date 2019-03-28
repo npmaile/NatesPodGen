@@ -1,0 +1,12 @@
+body{
+	background-color: gray;
+	max-width: 1000px;
+	margin: auto;
+}
+img{
+	float: right;
+}
+audio{
+	float: left;
+}
+
