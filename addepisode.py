@@ -44,14 +44,14 @@ def askforreleasedate():
 
     else:
         print('tough tiddies')
-        #todo: ask for the release date
+        return input("When would you like to release(dd mon yyyy):")
 
 image = None
    
 uniqueid = getuuid() + 1
 title = input("Title: ")
 description = input("Description")
-title = str(uniqueid) + ':' + description
+title = str(uniqueid) + ':' + title
 itunesCategory = input("itunes Category")
 itunesKeywords = input("itunes Keywords(separated by commas)") 
 releaseDate = askforreleasedate()
