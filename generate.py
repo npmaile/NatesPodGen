@@ -102,7 +102,7 @@ def genRss(podcast):
                     <enclosure url="'''         + podcast.externalroot + '/' + episode.link + '\" length=\"' + episode.length + '''" type="audio/mpeg" />
                     <title>'''                  + episode.title + '''</title>
                     <description>'''            + episode.description + '''</description>
-                    <pubDate>'''                + episode.releasedate.strftime('%Y %b %d') + '''</pubDate>
+                    <pubDate>'''                + formatdate(float(episode.releasedate.strftime('%s'))) + '''</pubDate>
                     <guid isPermaLink="false">''' + podcast.externalroot + '/#' + episode.uniqueId + '''</guid>
                     <link>'''                   + podcast.externalroot + '/'+ episode.link + '''</link>
                     <itunes:keywords>'''        + episode.keywords + '''</itunes:keywords>
