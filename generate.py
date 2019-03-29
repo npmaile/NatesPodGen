@@ -74,7 +74,7 @@ def genRss(podcast):
     headerxml = '''<rss version= "2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"><channel>
                         <atom:link href="'''        + podcast.externalroot + '/' + podcast.feedlocation + '''" rel="self" type="application/rss+xml" />
                         <title>'''                  + podcast.title + '''</title>
-                        <link>'''                   + podcast.feedlocation + '''</link>
+                        <link>'''                   + podcast.externalroot + '/' + podcast.feedlocation + '''</link>
                         <description>'''            + podcast.description + '''</description>
                         <language>'''               + podcast.language + '''</language>
                         <lastBuildDate> '''         + formatdate() +'''</lastBuildDate>
@@ -82,7 +82,7 @@ def genRss(podcast):
                         <webMaster>'''              + podcast.owneremail +' (' + podcast.ownername + ')' '''</webMaster>
                         <image>
                             <url>'''                + podcast.externalroot +'/'+ podcast.imagelocation + '''</url>
-                            <link>'''               + podcast.externalroot + '''</link>
+                            <link>'''               + podcast.externalroot + '/' + podcast.imagelocation + '''</link>
                             <title>'''              + podcast.title + '''</title> 
                         </image>
                         <itunes:author>'''          + podcast.ownername + '''</itunes:author>
@@ -107,7 +107,7 @@ def genRss(podcast):
                     <link>'''                   + podcast.externalroot + '/'+ episode.link + '''</link>
                     <itunes:keywords>'''        + episode.keywords + '''</itunes:keywords>
                     <itunes:duration>'''        + episode.duration +'''</itunes:duration>
-                    <itunes:image href="'''     + episode.altImage + '''"/>
+                    <itunes:image href="'''     + podcast.externalroot + '/' + episode.altImage + '''"/>
                     </item>
                     '''
     return  xml.dom.minidom.parseString(headerxml + episodes + tailxml).toprettyxml()
