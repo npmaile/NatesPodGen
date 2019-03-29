@@ -53,7 +53,7 @@ def populateClasses(config):
         else:
             ep = config[episode]
             newepisode = Episode(\
-                    link = ep['link'],\
+                    link = re.sub(' ','%20',ep['link']),\
                     length = str(os.path.getsize(globalconfig['serverSiteRoot'] + '/' + ep['link'])),\
                     title = episode,\
                     description = ep['description'],\
