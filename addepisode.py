@@ -45,8 +45,8 @@ def askforreleasedate():
 
     else:
         date = input("When would you like to release(dd mon yyyy):")
-            while not re.match('[0-9][0-9]\s(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\s[0-9][0-9][0-9][0-9]', date):
-                date = input("date did not match the format. please input it in format of dd month(abbreviated to three characters) yyyy")
+        while not re.match('[0-9][0-9]\s(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\s[0-9][0-9][0-9][0-9]', date):
+            date = input("date did not match the format. please input it in format of dd month(abbreviated to three characters) yyyy")
         return date
 
 image = None
