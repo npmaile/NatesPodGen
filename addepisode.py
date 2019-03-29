@@ -52,7 +52,6 @@ uniqueid = getuniqueid() + 1
 title = input("Title: ")
 description = input("Description")
 title = str(uniqueid) + ':' + title
->>>>>>> development
 itunesCategory = input("itunes Category")
 itunesKeywords = input("itunes Keywords(separated by commas)") 
 releaseDate = askforreleasedate()
