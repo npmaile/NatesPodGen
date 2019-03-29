@@ -5,8 +5,11 @@ body{
 }
 img{
 	float: right;
+	height: 500px;
 }
 audio{
 	float: left;
 }
-
+div.episode{
+	height: 500px;
+}
