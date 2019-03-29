@@ -5,7 +5,7 @@ import os, re, configparser, xml.dom.minidom, datetime
 
 indextemplatefile = 'templates/html/index.html'
 episodestemplatefile = 'templates/html/podcastsection.html'
-
+externallinksfile = 'templates/html/links.html'
 class Episode:
     def __init__(self, link, length, title, description, releasedate, uniqueId, keywords, duration, altImage=None):
         self.link = link
@@ -74,7 +74,7 @@ def genRss(podcast):
     headerxml = '''<rss version= "2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"><channel>
                         <atom:link href="'''        + podcast.externalroot + '/' + podcast.feedlocation + '''" rel="self" type="application/rss+xml" />
                         <title>'''                  + podcast.title + '''</title>
-                        <link>'''                   + podcast.externalroot + '/' + podcast.feedlocation + '''</link>
+                        <link>'''                   + podcast.externalroot + '''</link>
                         <description>'''            + podcast.description + '''</description>
                         <language>'''               + podcast.language + '''</language>
                         <lastBuildDate> '''         + formatdate() +'''</lastBuildDate>
@@ -82,7 +82,7 @@ def genRss(podcast):
                         <webMaster>'''              + podcast.owneremail +' (' + podcast.ownername + ')' '''</webMaster>
                         <image>
                             <url>'''                + podcast.externalroot +'/'+ podcast.imagelocation + '''</url>
-                            <link>'''               + podcast.externalroot + '/' + podcast.imagelocation + '''</link>
+                            <link>'''               + podcast.externalroot + '''</link>
                             <title>'''              + podcast.title + '''</title> 
                         </image>
                         <itunes:author>'''          + podcast.ownername + '''</itunes:author>
@@ -117,7 +117,9 @@ def genHtml(podcast,indexTemplateFile,episodeTemplateFile):
     
     with open(episodeTemplateFile, 'r') as episodehtmltemplatehandler:
         episodestemplatestring += episodehtmltemplatehandler.read()
-    
+    outsidelinks = ''
+    with open(externallinksfile, 'r') as externallinksfilehandler:
+        outsidelinks += externallinksfilehandler.read()
     compiledEpisodes = ''
     for episode in reversed(podcast.episodes):
         episodereplacements = dict(
@@ -135,6 +137,7 @@ def genHtml(podcast,indexTemplateFile,episodeTemplateFile):
             Title=str(podcast.title),\
             globalDescription=str(podcast.description),\
             EpisodesHtml=str(compiledEpisodes),\
+            externallinks=str(outsidelinks),\
             image=str(podcast.imagelocation)\
             )
     
