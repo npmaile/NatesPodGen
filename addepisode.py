@@ -20,15 +20,26 @@ def calclength(mp3file):
         answer = input('Please put it in the correct format')##todo generate this instead of asking for it because I'm a good programmer, Damnit!
     return answer
 
+<<<<<<< HEAD
 def getuuid():
+=======
+def getuniqueid():
+>>>>>>> development
     config = configparser.ConfigParser()
     config.read('feed.ini')
     maxnumber = 0
     for x in config.sections():
         try:
+<<<<<<< HEAD
             if config[x]['uuid'] is not None:
                 if int(config[x]['uuid']) > maxnumber:
                     maxnumber = int(config[x]['uuid'])
+=======
+            if config[x]['uniqueid'] is not None:
+                if int(config[x]['uniqueid']) > maxnumber:
+                    print(config[x]['uniqueid'])
+                    maxnumber = int(config[x]['uniqueid'])
+>>>>>>> development
         except KeyError:
             pass
 
@@ -44,6 +55,7 @@ def askforreleasedate():
 
     else:
         print('tough tiddies')
+<<<<<<< HEAD
         #todo: ask for the release date
 
 image = None
@@ -52,6 +64,15 @@ uniqueid = getuuid() + 1
 title = input("Title: ")
 description = input("Description")
 title = str(uniqueid) + ':' + description
+=======
+        return input("When would you like to release(dd mon yyyy):")
+
+image = None
+uniqueid = getuniqueid() + 1
+title = input("Title: ")
+description = input("Description")
+title = str(uniqueid) + ':' + title
+>>>>>>> development
 itunesCategory = input("itunes Category")
 itunesKeywords = input("itunes Keywords(separated by commas)") 
 releaseDate = askforreleasedate()
