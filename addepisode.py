@@ -30,7 +30,7 @@ def getuniqueid():
                 if int(config[x]['uniqueid']) > maxnumber:
                     print(config[x]['uniqueid'])
                     maxnumber = int(config[x]['uniqueid'])
-        except KeyError:
+        except KeyError: #this is probably not a great way to do this
             pass
 
     return maxnumber
@@ -44,8 +44,10 @@ def askforreleasedate():
         return today.strftime('%Y %b %d')
 
     else:
-        print('tough tiddies')
-        return input("When would you like to release(dd mon yyyy):")
+        date = input("When would you like to release(dd mon yyyy):")
+            while not re.match('[0-9][0-9]\s(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\s[0-9][0-9][0-9][0-9]', date):
+                date = input("date did not match the format. please input it in format of dd month(abbreviated to three characters) yyyy")
+        return date
 
 image = None
 uniqueid = getuniqueid() + 1
