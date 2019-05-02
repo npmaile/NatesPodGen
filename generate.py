@@ -3,9 +3,11 @@ from string import Template
 from email.utils import formatdate
 import os, re, configparser, xml.dom.minidom, datetime
 
-indextemplatefile = 'templates/html/index.html'
-episodestemplatefile = 'templates/html/podcastsection.html'
-externallinksfile = 'templates/html/links.html'
+workingPath = os.path.realpath(__file__)
+
+indextemplatefile = workingPath + 'templates/html/index.html'
+episodestemplatefile = workingPath + 'templates/html/podcastsection.html'
+externallinksfile = workingPath + 'templates/html/links.html'
 class Episode:
     def __init__(self, link, length, title, description, releasedate, uniqueId, keywords, duration, altImage=None):
         self.link = link
@@ -156,11 +158,11 @@ config.read('feed.ini')
 podcast = populateClasses(config)
 
 print('Writing rss feed')
-with open("site/podcast.rss",'w+') as rssfeed:
+with open(workingPath + "site/podcast.rss",'w+') as rssfeed:
     rssfeed.write(genRss(podcast))
 
 print('Writing html site')
-with open("site/index.html",'w+') as htmlsite:
+with open(workingPath + "site/index.html",'w+') as htmlsite:
     htmlsite.write(genHtml(podcast,indextemplatefile,episodestemplatefile))
 
 print('Done!')

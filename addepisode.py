@@ -11,7 +11,7 @@ parser.add_argument('mp3file', type=str , nargs=1 , help='The mp3 file to be add
 parser.add_argument('-i','--image',type=str,nargs=1,default = None ,help='the optional episode specific image for your episode')
 args = parser.parse_args()
 mp3filepath = vars(args)['mp3file'][0]
-
+workingPath = os.path.realpath(__file__)
 print(mp3filepath)
 
 def calclength(mp3file):
@@ -60,14 +60,14 @@ releaseDate = askforreleasedate()
 duration = calclength(mp3filepath)
 
 link = 'episodes/' + title + '.mp3'
-print('copying the mp3 file to' + 'site/' + link)
-shutil.copy(mp3filepath,'site/' + link)
+print('copying the mp3 file to' + workingPath + '/site/' + link)
+shutil.copy(mp3filepath, workingPath + '/site/' + link)
 
 if vars(args)['image'] is not None:
     image = args['image'][0]
     imagePath = 'site/images/' + uniqueid + ':' + description
-    print('copying the image file to' + imagePath)
-    shutil.copy(image,imagepath)
+    print('copying the image file to' + workingPath+ '/' + imagePath)
+    shutil.copy(image, workingPath + '/' + imagepath)
  
 
 
