@@ -11,7 +11,7 @@ parser.add_argument('mp3file', type=str , nargs=1 , help='The mp3 file to be add
 parser.add_argument('-i','--image',type=str,nargs=1,default = None ,help='the optional episode specific image for your episode')
 args = parser.parse_args()
 mp3filepath = vars(args)['mp3file'][0]
-workingPath = os.path.realpath("/".join(__file__.split('/')[:-1])
+workingPath = os.path.realpath("/".join(__file__.split('/')[:-1]))
 print(mp3filepath)
 
 def calclength(mp3file):
