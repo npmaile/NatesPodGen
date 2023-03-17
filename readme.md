@@ -9,3 +9,5 @@ drop your episode mp3s in the site/episodes directory
 edit the config.ini file to have the general information for your podcast as well as the information for each specific episode
 
 run generate.py
+
+example [here](https://podcast.npmaile.com)
