@@ -1,0 +1,5 @@
+1. set up an easy to use uploader to get podcast mp3s into cloudflare's R2 system
+
+2. Come up with a better way to store the metadata
+
+3. make the generated site much more better-er-ish

@@ -166,4 +166,3 @@ with open(workingPath + "/site/index.html",'w+') as htmlsite:
     htmlsite.write(genHtml(podcast,indextemplatefile,episodestemplatefile))
 
 print('Done!')
-
